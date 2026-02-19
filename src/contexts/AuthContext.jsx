@@ -2,6 +2,12 @@ import { createContext, useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes of inactivity
+const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+
+function buildAuthUrl(path) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${API_BASE_URL}/auth${normalizedPath}`;
+}
 
 const AuthContext = createContext(null);
 
@@ -35,7 +41,7 @@ export function AuthProvider({ children }) {
     const hadUser = !!user;
 
     try {
-      const response = await fetch('/api/auth/refresh', {
+      const response = await fetch(buildAuthUrl('/refresh'), {
         method: 'POST',
         credentials: 'include',
       });
@@ -197,7 +203,7 @@ export function AuthProvider({ children }) {
   const clearSessionMessage = () => setSessionMessage('');
 
   const login = async (email, password) => {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch(buildAuthUrl('/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -262,7 +268,7 @@ export function AuthProvider({ children }) {
   };
 
   const register = async (userData) => {
-    const response = await fetch('/api/auth/register', {
+    const response = await fetch(buildAuthUrl('/register'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -279,7 +285,7 @@ export function AuthProvider({ children }) {
 
   const logout = async (reason = '') => {
     try {
-      await fetch('/api/auth/logout', {
+      await fetch(buildAuthUrl('/logout'), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${getAccessToken()}`,
@@ -302,7 +308,7 @@ export function AuthProvider({ children }) {
   };
 
   const requestPasswordReset = async (email) => {
-    const response = await fetch('/api/auth/request-password-reset', {
+    const response = await fetch(buildAuthUrl('/request-password-reset'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
@@ -318,7 +324,7 @@ export function AuthProvider({ children }) {
   };
 
   const resetPassword = async (token, newPassword) => {
-    const response = await fetch('/api/auth/reset-password', {
+    const response = await fetch(buildAuthUrl('/reset-password'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, newPassword }),
@@ -334,7 +340,7 @@ export function AuthProvider({ children }) {
   };
 
   const verifyEmail = async (token) => {
-    const response = await fetch(`/api/auth/verify-email/${token}`);
+    const response = await fetch(buildAuthUrl(`/verify-email/${token}`));
     const data = await response.json();
 
     if (!response.ok) {
