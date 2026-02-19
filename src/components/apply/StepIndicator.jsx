@@ -4,9 +4,8 @@
  * 
  * @param {Object} props
  * @param {number} props.currentStep - Current step (1, 2, or 3)
- * @param {number} props.totalSteps - Total number of steps
  */
-const StepIndicator = ({ currentStep, totalSteps = 3 }) => {
+const StepIndicator = ({ currentStep }) => {
   const steps = [
     { number: 1, label: 'Student & Academic Info' },
     { number: 2, label: 'Identity Verification' },

@@ -20,7 +20,6 @@ const LaptopFormModal = ({ laptop, onClose, onSuccess }) => {
   })
 
   const [imagePreview, setImagePreview] = useState('')
-  const [imageFile, setImageFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -67,7 +66,6 @@ const LaptopFormModal = ({ laptop, onClose, onSuccess }) => {
       return
     }
 
-    setImageFile(file)
     setError('')
 
     // Create preview
@@ -84,7 +82,6 @@ const LaptopFormModal = ({ laptop, onClose, onSuccess }) => {
   }
 
   const handleRemoveImage = () => {
-    setImageFile(null)
     setImagePreview('')
     setFormData((prev) => ({
       ...prev,

@@ -92,26 +92,6 @@ const ApplyModal = ({ isOpen, onClose, laptop }) => {
     return Object.keys(newErrors).length === 0
   }
 
-  const validateStep2 = () => {
-    const newErrors = {}
-    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required'
-    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required'
-    if (!formData.address.trim()) newErrors.address = 'Residential address is required'
-    if (!formData.ghanaCardNumber.trim()) newErrors.ghanaCardNumber = 'Ghana Card number is required'
-    if (!formData.ghanaCardFront) newErrors.ghanaCardFront = 'Ghana Card front image is required'
-    if (!formData.ghanaCardBack) newErrors.ghanaCardBack = 'Ghana Card back image is required'
-    if (!formData.selfieWithCard) newErrors.selfieWithCard = 'Selfie with Ghana Card is required'
-    if (formData.hasStudentId === null) newErrors.hasStudentId = 'Please select an option'
-    if (formData.hasStudentId === true && !formData.studentId.trim()) {
-      newErrors.studentId = 'Student ID is required'
-    }
-    if (formData.hasStudentId === false && !formData.admissionLetter) {
-      newErrors.admissionLetter = 'Admission letter is required'
-    }
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
   const handleNext = () => {
     if (currentStep === 1 && validateStep1()) {
       setCurrentStep(2)

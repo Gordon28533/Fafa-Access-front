@@ -18,7 +18,7 @@ import {
  */
 const LaptopCatalog = () => {
   const navigate = useNavigate()
-  const { isAuthenticated, user, authFetch } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const [allLaptops, setAllLaptops] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)

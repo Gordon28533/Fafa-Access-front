@@ -41,8 +41,6 @@ const StatusProgress = ({ status }) => {
         {steps.map((step, index) => {
           const isCompleted = index < currentStepIndex
           const isCurrent = index === currentStepIndex
-          const isPending = index > currentStepIndex
-
           return (
             <div key={step.key} className="flex items-center flex-1">
               {/* Step Circle */}

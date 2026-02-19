@@ -1,4 +1,4 @@
-import { getStockStatus, STOCK_STATUS } from './stockUtils'
+import { getStockStatus } from './stockUtils'
 
 /**
  * Filter utility functions

@@ -16,7 +16,7 @@ import { isAvailable, isLaptopAvailable } from '../utils/stockUtils'
 const LaptopDetails = ({ laptopId = null }) => {
   const navigate = useNavigate()
   const { id: routeId } = useParams()
-  const { isAuthenticated, user, authFetch } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const [laptop, setLaptop] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
