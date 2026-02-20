@@ -28,16 +28,6 @@ import AdminPaymentDashboard from './components/AdminPaymentDashboard'
 import AdminPaymentDetail from './components/AdminPaymentDetail'
 import AdminProductManagement from './pages/AdminProductManagement'
 import { ProtectedRoute, GuestRoute } from './components/auth/ProtectedRoute'
-import { useAuth } from './hooks/useAuth'
-
-const FullPageLoader = ({ message = 'Loading...' }) => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50">
-    <div className="text-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
-      <p className="mt-4 text-gray-600">{message}</p>
-    </div>
-  </div>
-)
 
 const RoleRouteLayout = ({ allowedRoles }) => (
   <ProtectedRoute allowedRoles={allowedRoles}>
@@ -48,13 +38,6 @@ const RoleRouteLayout = ({ allowedRoles }) => (
 )
 
 function App() {
-  const { loading } = useAuth()
-
-  // Guard rendering while auth state is resolving to avoid flicker/flash
-  if (loading) {
-    return <FullPageLoader message="Checking your session..." />
-  }
-
   return (
     <>
       <Routes>

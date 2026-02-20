@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes of inactivity
 const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+const REFRESH_REQUEST_TIMEOUT_MS = 6000;
 
 function buildAuthUrl(path) {
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
@@ -41,10 +42,18 @@ export function AuthProvider({ children }) {
     const hadUser = !!user;
 
     try {
-      const response = await fetch(buildAuthUrl('/refresh'), {
-        method: 'POST',
-        credentials: 'include',
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), REFRESH_REQUEST_TIMEOUT_MS);
+      let response;
+      try {
+        response = await fetch(buildAuthUrl('/refresh'), {
+          method: 'POST',
+          credentials: 'include',
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timeoutId);
+      }
 
       // Handle rate limiting (429) specifically
       if (response.status === 429) {
@@ -120,6 +129,9 @@ export function AuthProvider({ children }) {
       
       return { ...data, user: normalizedUser };
     } catch (error) {
+      if (error?.name === 'AbortError') {
+        console.warn('[AuthContext] Session refresh timed out');
+      }
       if (hadUser) {
         handleAuthFailure();
       } else {
