@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import Layout from './layouts/Layout'
 import LaptopCatalog from './pages/LaptopCatalog'
 import LaptopDetails from './pages/LaptopDetails'
@@ -40,6 +41,7 @@ const RoleRouteLayout = ({ allowedRoles }) => (
 function App() {
   return (
     <>
+      <Analytics />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Layout><LaptopCatalog /></Layout>} />
